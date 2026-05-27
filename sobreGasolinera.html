@@ -1,0 +1,468 @@
+<!-- sobreGasolinera.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sobre el proyecto - Gasolinera</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow-x:hidden;
+}
+
+/* ===== FONDO ===== */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:url("fondoGasolinera.jpg") no-repeat center center/cover;
+
+    opacity:0.5;
+
+    z-index:-1;
+}
+
+/* ===== TOPBAR ===== */
+
+.topbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:70px;
+
+    background:#4a0000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    z-index:1000;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.4);
+}
+
+.titulo{
+
+    font-size:clamp(18px,3vw,32px);
+
+    font-weight:bold;
+
+    text-align:center;
+
+    padding:0 10px;
+}
+
+/* ===== BOTÓN HOME ===== */
+
+.home-btn{
+
+    position:absolute;
+
+    right:20px;
+
+    width:48px;
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.08);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(5px);
+
+    transition:0.3s;
+}
+
+.home-btn:hover{
+
+    background:rgba(255,255,255,0.18);
+
+    transform:scale(1.08);
+}
+
+/* ===== CONTENEDOR ===== */
+
+        .contenedor{
+
+            display:flex;
+
+            flex:1;
+
+            margin-top:70px;
+            margin-bottom:32px;
+
+            width:100%;
+        }
+
+        /* ===== SIDEBAR ===== */
+
+    .sidebar{
+
+            width:220px;
+
+            background:rgba(130,0,0,0.85);
+
+            padding:30px 20px;
+
+            backdrop-filter:blur(5px);
+
+            min-height:calc(100vh - 102px);
+        }
+
+        .sidebar h2{
+
+            margin-bottom:30px;
+
+            font-size:clamp(18px, 2vw, 28px);
+
+            color:#ffffff;
+        }
+
+/* ===== MENU ===== */
+
+.menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+}
+
+.menu button{
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2a0000;
+
+    color:white;
+
+    font-size:clamp(14px,1.5vw,18px);
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.menu button:hover{
+
+    background:#111;
+
+    transform:scale(1.03);
+}
+
+/* ===== CONTENIDO ===== */
+
+.contenido{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+}
+
+/* ===== PANEL ===== */
+
+.panel{
+
+    width:min(90%,700px);
+
+    background:rgba(255,255,255,0.16);
+
+    border:2px solid rgba(255,255,255,0.18);
+
+    border-radius:22px;
+
+    backdrop-filter:blur(10px);
+
+    padding:40px;
+
+    color:#111;
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.18);
+}
+
+.panel h1{
+
+    margin-bottom:20px;
+
+    font-size:clamp(28px,4vw,45px);
+}
+
+.panel p{
+
+    font-size:clamp(15px,2vw,20px);
+
+    line-height:1.8;
+
+    opacity:0.85;
+}
+
+/* ===== FOOTER ===== */
+
+        .footer{
+
+            position:fixed;
+
+            bottom:0;
+            left:0;
+
+            width:100%;
+
+            height:32px;
+
+            background:black;
+
+            color:white;
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            padding:4px 14px;
+
+            z-index:1000;
+
+            overflow:hidden;
+        }
+
+        .estudiantes h3{
+
+            margin-bottom:1px;
+
+            font-size:10px;
+        }
+
+        .lista-estudiantes{
+
+            display:flex;
+            flex-direction:row;
+
+            gap:6px;
+
+            font-size:8px;
+
+            line-height:8px;
+        }
+
+        .marca-agua{
+
+            font-size:8px;
+
+            opacity:0.30;
+
+            letter-spacing:1px;
+        }
+
+/* ===== RESPONSIVE ===== */
+
+        @media(max-width:768px){
+
+            .contenedor{
+
+                flex-direction:column;
+            }
+
+            .sidebar{
+
+                width:100%;
+
+                min-height:auto;
+
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+            }
+
+            .menu{
+
+                width:100%;
+
+                flex-direction:row;
+
+                justify-content:center;
+
+                flex-wrap:wrap;
+            }
+
+            .menu button{
+
+                width:140px;
+            }
+
+            .contenido{
+
+                padding:20px;
+            }
+
+            .panel-info{
+
+                padding:25px;
+            }
+
+            .footer{
+
+                justify-content:center;
+
+                text-align:center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="topbar">
+
+    <div class="titulo">
+        Información de nivel <br>
+        de combustible
+    </div>
+
+    <button class="home-btn" onclick="window.location.href='index.html'">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="22"
+             height="22"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="white"
+             stroke-width="2.2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V20h14V9.5"></path>
+            <path d="M9 20v-6h6v6"></path>
+
+        </svg>
+
+    </button>
+
+</div>
+
+</div>
+
+<div class="contenedor">
+
+    <div class="sidebar">
+
+        <h2>UMSA - FCPN - Informática</h2>
+
+        <div class="menu">
+
+            <button onclick="window.location.href='gasolinera.html'">
+                Inicio
+            </button>
+
+            <button onclick="window.location.href='informacionGasolinera.html'">
+                Información
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="contenido">
+
+        <div class="panel">
+
+            <h1>
+                Sobre el proyecto
+            </h1>
+
+            <p>
+                    Este proyecto fue desarrollado por estudiantes de la UMSA
+                    de la carrera de Informática, con el propósito de visualizar
+                    el nivel de un tanque de gasolina mediante una interfaz moderna,
+                    clara y adaptable a distintos dispositivos.
+                    <br><br>
+                    El sistema permite mostrar los litros disponibles y para cuantos autos
+                    alcanza el combustible en tiempo real, facilitando el monitoreo del estado del
+                    tanque de una manera automática desde cualquier punto
+                    del mundo donde se encuentre el usuario (siempre y cuando tenga acceso a internet).
+                    <br><br>
+                    El proyecto fue realizado con el objetivo de proporcionar una
+                    solución eficiente y accesible para el monitoreo de niveles
+                    de gasolina para ver cual gasolinera tiene combustible disponible.
+                </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="footer">
+
+    <div class="estudiantes">
+
+        <div class="lista-estudiantes">
+            <div>- Zabaleta Zelaya Sergio Gabriel</div>
+            <div>- Juan Pablo Velasquez Gonzales</div>
+            <div>- Kevin Gary Villanueva Chuquimia</div>
+            <div>- Rodriguez Chalco Dayana Karen</div>
+            <div>- Luis Cristofer Santalla Lopez</div>
+        </div>
+
+    </div>
+
+    <div class="marca-agua">
+        La Paz - Bolivia, 2026
+    </div>
+
+</div>
+
+</body>
+</html>

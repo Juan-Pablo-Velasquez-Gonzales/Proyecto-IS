@@ -1,0 +1,576 @@
+<!-- informacion.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Información del Sistema</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            position:relative;
+            overflow-x:hidden;
+        }
+
+        /* ===== FONDO ===== */
+
+        body::before{
+
+            content:"";
+
+            position:fixed;
+
+            top:0;
+            left:0;
+
+            width:100%;
+            height:100%;
+
+            background:url("fondo.jpg") no-repeat center center/cover;
+
+            opacity:0.5;
+
+            z-index:-1;
+        }
+
+        /* ===== BARRA SUPERIOR ===== */
+
+        .topbar{
+
+            position:fixed;
+
+            top:0;
+            left:0;
+
+            width:100%;
+            min-height:70px;
+
+            background:#5f5f5f;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            color:white;
+
+            z-index:1000;
+
+            padding:10px;
+
+            box-shadow:0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        .titulo{
+
+            font-size:clamp(18px, 3vw, 32px);
+
+            font-weight:bold;
+        }
+
+        /* ===== BOTÓN HOME ===== */
+
+.home-btn{
+
+    position:absolute;
+
+    right:20px;
+
+    width:48px;
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.08);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(5px);
+
+    transition:0.3s;
+}
+
+.home-btn:hover{
+
+    background:rgba(255,255,255,0.18);
+
+    transform:scale(1.08);
+}
+
+        /* ===== CONTENEDOR ===== */
+
+        .contenedor{
+
+            display:flex;
+
+            flex:1;
+
+            margin-top:70px;
+            margin-bottom:32px;
+
+            width:100%;
+        }
+
+        /* ===== SIDEBAR ===== */
+
+    .sidebar{
+
+            width:220px;
+
+            background:rgba(246,223,234,0.9);
+
+            padding:30px 20px;
+
+            backdrop-filter:blur(5px);
+
+            min-height:calc(100vh - 102px);
+        }
+
+        .sidebar h2{
+
+            margin-bottom:30px;
+
+            font-size:clamp(18px, 2vw, 28px);
+
+            color:#222;
+        }
+
+        /* ===== BOTONES ===== */
+
+        .menu{
+
+            display:flex;
+            flex-direction:column;
+
+            gap:20px;
+        }
+
+        .menu button{
+
+            padding:15px;
+
+            border:none;
+            border-radius:12px;
+
+            background:#444;
+
+            color:white;
+
+            font-size:clamp(14px, 1.5vw, 18px);
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .menu button:hover{
+
+            background:#222;
+
+            transform:scale(1.03);
+        }
+
+        /* ===== CONTENIDO ===== */
+
+        .contenido{
+
+            flex:1;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:30px;
+        }
+
+        /* ===== PANEL ===== */
+
+        .panel-info{
+
+            width:min(95%, 850px);
+
+            background:rgba(255,255,255,0.28);
+
+            border:2px solid rgba(255,255,255,0.35);
+
+            border-radius:25px;
+
+            backdrop-filter:blur(10px);
+
+            padding:35px;
+
+            box-shadow:0 8px 30px rgba(0,0,0,0.20);
+
+            color:#222;
+        }
+
+        .panel-info h3{
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+            font-size:clamp(24px, 3vw, 36px);
+
+            font-weight:500;
+        }
+
+        /* ===== TARJETAS ===== */
+
+        .estado{
+
+            display:flex;
+            align-items:center;
+
+            gap:20px;
+
+            margin-bottom:25px;
+
+            background:rgba(255,255,255,0.25);
+
+            padding:20px;
+
+            border-radius:18px;
+        }
+
+        .color{
+
+            width:60px;
+            height:60px;
+
+            border-radius:15px;
+
+            flex-shrink:0;
+        }
+
+        .verde{
+
+            background:#00c853;
+        }
+
+        .naranja{
+
+            background:#ff9800;
+        }
+
+        .rojo{
+
+            background:#e53935;
+        }
+
+        .texto h4{
+
+            margin-bottom:8px;
+
+            font-size:clamp(18px, 2vw, 22px);
+        }
+
+        .texto p{
+
+            font-size:clamp(13px, 1.5vw, 16px);
+
+            line-height:1.7;
+
+            opacity:0.85;
+        }
+
+        /* ===== FOOTER ===== */
+
+        .footer{
+
+            position:fixed;
+
+            bottom:0;
+            left:0;
+
+            width:100%;
+
+            height:32px;
+
+            background:black;
+
+            color:white;
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            padding:4px 14px;
+
+            z-index:1000;
+
+            overflow:hidden;
+        }
+
+        .estudiantes h3{
+
+            margin-bottom:1px;
+
+            font-size:10px;
+        }
+
+        .lista-estudiantes{
+
+            display:flex;
+            flex-direction:row;
+
+            gap:6px;
+
+            font-size:8px;
+
+            line-height:8px;
+        }
+
+        .marca-agua{
+
+            font-size:8px;
+
+            opacity:0.30;
+
+            letter-spacing:1px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media(max-width:768px){
+
+            .contenedor{
+
+                flex-direction:column;
+            }
+
+            .sidebar{
+
+                width:100%;
+
+                min-height:auto;
+
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+            }
+
+            .menu{
+
+                width:100%;
+
+                flex-direction:row;
+
+                justify-content:center;
+
+                flex-wrap:wrap;
+            }
+
+            .menu button{
+
+                width:180px;
+            }
+
+            .estado{
+
+                flex-direction:column;
+
+                text-align:center;
+            }
+
+            .footer{
+
+                justify-content:center;
+
+                text-align:center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ===== TOPBAR ===== -->
+
+    <div class="topbar">
+
+        <div class="titulo">
+            Información de nivel<br>
+            del tanque de agua
+        </div>
+
+    <button class="home-btn" onclick="window.location.href='index.html'">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="22"
+             height="22"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="white"
+             stroke-width="2.2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V20h14V9.5"></path>
+            <path d="M9 20v-6h6v6"></path>
+
+        </svg>
+
+    </button>
+
+</div>
+
+    </div>
+
+    <!-- ===== CONTENEDOR ===== -->
+
+    <div class="contenedor">
+
+        <!-- ===== SIDEBAR ===== -->
+
+        <div class="sidebar">
+
+            <h2>UMSA - FCPN - Informática</h2>
+
+            <div class="menu">
+
+                <button onclick="window.location.href='sobre.html'">
+                    Sobre el proyecto
+                </button>
+
+                <button onclick="window.location.href='agua.html'">
+                    Inicio
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ===== CONTENIDO ===== -->
+
+        <div class="contenido">
+
+            <div class="panel-info">
+
+                <h3>
+                    Significado de colores
+                </h3>
+
+                <!-- VERDE -->
+
+                <div class="estado">
+
+                    <div class="color verde"></div>
+
+                    <div class="texto">
+
+                        <h4>
+                            Nivel alto
+                        </h4>
+
+                        <p>
+                            El tanque posee un nivel óptimo de agua.
+                            El sistema funciona correctamente y no se
+                            requiere ninguna acción inmediata.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- NARANJA -->
+
+                <div class="estado">
+
+                    <div class="color naranja"></div>
+
+                    <div class="texto">
+
+                        <h4>
+                            Nivel medio
+                        </h4>
+
+                        <p>
+                            El tanque presenta un nivel moderado de agua.
+                            Se recomienda realizar una supervisión preventiva
+                            para evitar que el nivel continúe disminuyendo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- ROJO -->
+
+                <div class="estado">
+
+                    <div class="color rojo"></div>
+
+                    <div class="texto">
+
+                        <h4>
+                            Nivel bajo
+                        </h4>
+
+                        <p>
+                            El tanque posee poca cantidad de agua.
+                            Se recomienda rellenarlo lo antes posible
+                            para evitar interrupciones o problemas
+                            en el suministro.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+
+    <div class="footer">
+
+        <div class="estudiantes">
+
+            <div class="lista-estudiantes">
+            <div>- Zabaleta Zelaya Sergio Gabriel</div>
+                <div>- Juan Pablo Velasquez Gonzales</div>
+                <div>- Kevin Gary Villanueva Chuquimia</div>
+                <div>- Rodriguez Chalco Dayana Karen</div>
+                <div>- Luis Cristofer Santalla Lopez</div>
+            </div>
+
+        </div>
+
+        <div class="marca-agua">
+            La Paz - Bolivia, 2026
+        </div>
+
+    </div>
+
+</body>
+
+</html>

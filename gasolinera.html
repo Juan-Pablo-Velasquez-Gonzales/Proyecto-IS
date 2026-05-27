@@ -1,0 +1,785 @@
+<!-- gasolinera.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Información de nivel de combustible</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    position:relative;
+
+    overflow-x:hidden;
+}
+
+/* ===== FONDO ===== */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:url("fondoGasolinera.jpg") no-repeat center center/cover;
+
+    opacity:0.5;
+
+    z-index:-1;
+}
+
+/* ===== TOPBAR ===== */
+
+.topbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    min-height:70px;
+
+    background:#4a0000;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    z-index:1000;
+
+    padding:10px;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.4);
+}
+
+.titulo{
+
+    font-size:clamp(18px,3vw,32px);
+
+    font-weight:bold;
+}
+
+/* ===== BOTÓN HOME ===== */
+
+.home-btn{
+
+    position:absolute;
+
+    right:20px;
+
+    width:48px;
+    height:48px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.08);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    backdrop-filter:blur(5px);
+
+    transition:0.3s;
+}
+
+.home-btn:hover{
+
+    background:rgba(255,255,255,0.18);
+
+    transform:scale(1.08);
+}
+
+/* ===== CONTENEDOR ===== */
+
+.contenedor{
+
+    display:flex;
+
+    flex:1;
+
+    margin-top:70px;
+    margin-bottom:32px;
+
+    width:100%;
+}
+
+/* ===== SIDEBAR ===== */
+
+.sidebar{
+
+    width:220px;
+
+    background:rgba(130,0,0,0.85);
+
+    padding:30px 20px;
+
+    backdrop-filter:blur(5px);
+
+    min-height:calc(100vh - 102px);
+}
+
+.sidebar h2{
+
+    margin-bottom:30px;
+
+    font-size:clamp(18px,2vw,28px);
+
+    color:#ffffff;
+}
+
+/* ===== BOTONES ===== */
+
+.menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+}
+
+.menu button{
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2a0000;
+
+    color:white;
+
+    font-size:clamp(14px,1.5vw,18px);
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.menu button:hover{
+
+    background:#111;
+
+    transform:scale(1.03);
+}
+
+/* ===== CONTENIDO ===== */
+
+.contenido{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+}
+
+/* ===== PANEL ===== */
+
+.panel-general{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:40px;
+
+    background:rgba(255,255,255,0.16);
+
+    border:2px solid rgba(255,255,255,0.18);
+
+    border-radius:22px;
+
+    backdrop-filter:blur(10px);
+
+    padding:30px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,0.18);
+
+    flex-wrap:wrap;
+}
+
+.panel-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+/* ===== TANQUE GASOLINA ===== */
+
+.gasolina-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.gasolina{
+
+    position:relative;
+
+    width:190px;
+
+    height:240px;
+
+    border:4px solid #111;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,0.10);
+
+    box-shadow:0 5px 18px rgba(0,0,0,0.25);
+}
+
+/* MANGUERA */
+
+.gasolina::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:20px;
+
+    right:-35px;
+
+    width:35px;
+
+    height:90px;
+
+    border:4px solid #111;
+
+    border-left:none;
+
+    border-radius:0 15px 15px 0;
+}
+
+/* ICONO */
+
+.gasolina::after{
+
+    content:"⛽";
+
+    position:absolute;
+
+    top:10px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:38px;
+}
+
+/* ===== COMBUSTIBLE ===== */
+
+.combustible{
+
+    position:absolute;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    height:0%;
+
+    background:#00e676;
+
+    transition:height 1s ease,
+               background 0.5s ease;
+}
+
+.combustible::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-10px;
+
+    left:0;
+
+    width:100%;
+
+    height:20px;
+
+    background:rgba(255,255,255,0.25);
+
+    border-radius:50%;
+}
+
+/* ===== MARCAS ===== */
+
+.marcas{
+
+    position:absolute;
+
+    right:8px;
+
+    top:15px;
+
+    height:210px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    font-weight:bold;
+
+    font-size:14px;
+
+    color:#111;
+
+    z-index:5;
+
+    text-align:right;
+}
+
+/* ===== TEXTO ===== */
+
+.panel-info h3{
+
+    margin-top:5px;
+
+    font-size:clamp(18px,3vw,24px);
+
+    color:#111;
+}
+
+.numero-container{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    margin-top:5px;
+
+    gap:8px;
+}
+
+#numero{
+
+    font-size:clamp(45px,8vw,70px);
+
+    font-weight:bold;
+
+    color:#111;
+}
+
+.porcentaje{
+
+    font-size:clamp(28px,5vw,40px);
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+    color:#111;
+}
+
+/* ===== AUTOS ===== */
+
+.autos-box{
+
+    min-width:280px;
+
+    background:rgba(255,255,255,0.18);
+
+    border:2px solid rgba(255,255,255,0.20);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    text-align:center;
+
+    color:#111;
+}
+
+.autos-box h4{
+
+    font-size:clamp(22px,3vw,34px);
+
+    margin-bottom:20px;
+}
+
+#autos{
+
+    font-size:clamp(55px,8vw,90px);
+
+    font-weight:bold;
+
+    color:#1b5e20;
+}
+
+/* ===== FOOTER ===== */
+
+        .footer{
+
+            position:fixed;
+
+            bottom:0;
+            left:0;
+
+            width:100%;
+
+            height:32px;
+
+            background:black;
+
+            color:white;
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            padding:4px 14px;
+
+            z-index:1000;
+
+            overflow:hidden;
+        }
+
+        .estudiantes h3{
+
+            margin-bottom:1px;
+
+            font-size:10px;
+        }
+
+        .lista-estudiantes{
+
+            display:flex;
+            flex-direction:row;
+
+            gap:6px;
+
+            font-size:8px;
+
+            line-height:8px;
+        }
+
+        .marca-agua{
+
+            font-size:8px;
+
+            opacity:0.30;
+
+            letter-spacing:1px;
+        }
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:900px){
+
+    .panel-general{
+
+        flex-direction:column;
+    }
+}
+
+@media(max-width:768px){
+
+    .contenedor{
+
+        flex-direction:column;
+    }
+
+    .sidebar{
+
+        width:100%;
+
+        min-height:auto;
+
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .menu{
+
+        width:100%;
+
+        flex-direction:row;
+
+        justify-content:center;
+
+        flex-wrap:wrap;
+    }
+
+    .menu button{
+
+        width:180px;
+    }
+
+    .footer{
+        justify-content:space-between;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ===== TOPBAR ===== -->
+
+    <div class="topbar">
+
+    <div class="titulo">
+        Información de nivel <br>
+        de combustible
+    </div>
+
+    <button class="home-btn" onclick="window.location.href='index.html'">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="22"
+             height="22"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="white"
+             stroke-width="2.2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M3 10.5L12 3l9 7.5"></path>
+            <path d="M5 9.5V20h14V9.5"></path>
+            <path d="M9 20v-6h6v6"></path>
+
+        </svg>
+
+    </button>
+
+</div>
+
+<!-- ===== CONTENEDOR ===== -->
+
+<div class="contenedor">
+
+    <!-- ===== SIDEBAR ===== -->
+
+    <div class="sidebar">
+
+        <h2>UMSA - FCPN - Informática</h2>
+
+        <div class="menu">
+
+            <button onclick="window.location.href='sobreGasolinera.html'">
+                Sobre el proyecto
+            </button>
+
+            <button onclick="window.location.href='informacionGasolinera.html'">
+                Información
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ===== CONTENIDO ===== -->
+
+    <div class="contenido">
+
+        <div class="panel-general">
+
+            <!-- PANEL IZQUIERDO -->
+
+            <div class="panel-info">
+
+                <div class="gasolina-container">
+
+                    <div class="gasolina">
+
+                        <div class="combustible"
+                        id="combustible"></div>
+
+                        <div class="marcas">
+
+                            <span>25.000 L</span>
+                            <span>18.750 L</span>
+                            <span>12.500 L</span>
+                            <span>6.250 L</span>
+                            <span>0 L</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h3>
+                    Litros actuales
+                </h3>
+
+                <div class="numero-container">
+
+                    <div id="numero">
+                        0
+                    </div>
+
+                    <div class="porcentaje">
+                        L
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL DERECHO -->
+
+            <div class="autos-box">
+
+                <h4>
+                    Autos que puede cargar
+                </h4>
+
+                <div id="autos">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+
+<div class="footer">
+
+    <div class="estudiantes">
+
+        <div class="lista-estudiantes">
+
+            <div>- Zabaleta Zelaya Sergio Gabriel</div>
+            <div>- Juan Pablo Velasquez Gonzales</div>
+            <div>- Kevin Gary Villanueva Chuquimia</div>
+            <div>- Rodriguez Chalco Dayana Karen</div>
+            <div>- Luis Cristofer Santalla Lopez</div>
+
+        </div>
+
+    </div>
+
+    <div class="marca-agua">
+        La Paz - Bolivia, 2026
+    </div>
+
+</div>
+
+<script>
+
+function actualizarNumero(valor){
+
+    const combustible =
+    document.getElementById("combustible");
+
+    combustible.style.height = valor + "%";
+
+    // ===== COLORES =====
+
+    if(valor >= 70){
+
+        combustible.style.background = "#00e676";
+    }
+    else if(valor >= 40){
+
+        combustible.style.background = "#ff9800";
+    }
+    else{
+
+        combustible.style.background = "#ff1744";
+    }
+
+    // ===== LITROS =====
+
+    const capacidadMaxima = 25000;
+
+    const litrosActuales =
+    Math.floor((valor / 100) * capacidadMaxima);
+
+    document.getElementById("numero")
+    .innerText =
+    litrosActuales.toLocaleString();
+
+    // ===== AUTOS =====
+
+    const autos =
+    Math.floor(litrosActuales / 30);
+
+    document.getElementById("autos")
+    .innerText = autos;
+}
+
+setInterval(() => {
+
+    let numeroAleatorio =
+    Math.floor(Math.random() * 100);
+
+    actualizarNumero(numeroAleatorio);
+
+}, 2500);
+
+</script>
+
+</body>
+
+</html>
